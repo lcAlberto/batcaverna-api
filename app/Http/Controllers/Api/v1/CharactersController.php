@@ -20,6 +20,10 @@ class CharactersController extends Controller
 
     public function store (CharacterRequest $request, Character $model) {
         try {
+
+//            $character = new Character($request->validated());
+//            $team = Team::find($request->team_id);
+//            $data = $team->characters()->save($character);
             $data = $model->create($request->validated());
             return response()->json(['success' => true, 'data' => $data], 200);
         } catch (\Exception $exception) {

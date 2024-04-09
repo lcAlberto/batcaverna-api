@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="base_api_db@localhost" uuid="0ebf46b9-4274-47e6-94bd-62997609dce5">
-      <driver-ref>mysql.8</driver-ref>
+    <data-source source="LOCAL" name="batcaverna@localhost" uuid="fe8f021d-afe0-441f-8621-f0110f4a59cc">
+      <driver-ref>mysql_aurora_aws</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/base_api_db</jdbc-url>
+      <jdbc-driver>software.aws.rds.jdbc.mysql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql:aws://localhost:3306/batcaverna</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

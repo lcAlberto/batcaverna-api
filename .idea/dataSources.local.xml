@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal" created-in="PS-231.8770.68">
-    <data-source name="base_api_db@localhost" uuid="0ebf46b9-4274-47e6-94bd-62997609dce5">
-      <database-info product="MySQL" version="8.0.36-0ubuntu0.22.04.1" jdbc-version="4.2" driver-name="MySQL Connector/J" driver-version="mysql-connector-j-8.2.0 (Revision: 06a1f724497fd81c6a659131fda822c9e5085b6c)" dbms="MYSQL" exact-version="8.0.36" exact-driver-version="8.2">
+  <component name="dataSourceStorageLocal" created-in="PS-241.14494.237">
+    <data-source name="batcaverna@localhost" uuid="fe8f021d-afe0-441f-8621-f0110f4a59cc">
+      <database-info product="MySQL" version="8.0.36-0ubuntu0.22.04.1" jdbc-version="4.2" driver-name="Amazon Web Services (AWS) JDBC Driver for MySQL" driver-version="aws-mysql-connector-java-1.1.9 (Revision: 122bff765e786a47605d9586910f911cb87f3733)" dbms="MYSQL" exact-version="8.0.36" exact-driver-version="1.1">
         <extra-name-characters>#@</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>
+        <jdbc-catalog-is-schema>true</jdbc-catalog-is-schema>
       </database-info>
       <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
-      <user-name>lucka</user-name>
+      <user-name>root</user-name>
       <schema-mapping>
         <introspection-scope>
           <node kind="schema" qname="@" />
