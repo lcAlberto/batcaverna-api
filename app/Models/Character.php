@@ -13,13 +13,13 @@ class Character extends Model
         'age',
         'avatar',
         'weakness',
-        'skils',
         'color',
         'affiliate',
         'pair',
         'planet',
         'city',
-        'team_id'
+        'team_id',
+        'squad_id'
     ];
 
     public function team()
@@ -27,5 +27,13 @@ class Character extends Model
         return $this->belongsTo('App\Models\Team');
     }
 
+    public function squad()
+    {
+        return $this->belongsTo('App\Models\Squad');
+    }
 
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'character_skill');
+    }
 }

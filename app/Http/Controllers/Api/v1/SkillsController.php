@@ -3,58 +3,52 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TeamRequest;
-use App\Models\Team;
+use App\Models\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class TeamsController extends Controller
+class SkillsController extends Controller
 {
     private $paginate = 15;
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function index()
-    {
+
+    public function index (Skill $skill) {
         try {
-            return response()->json(['teams' => Team::paginate($this->paginate)]);
+            return response()->json(['data' => Skill::paginate($this->paginate)]);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
         }
     }
 
-    public function store (TeamRequest $request, Team $model) {
+    public function store (Request $request, Skill $model) {
         try {
-            $data = $model->create($request->validated());
+            $data = $model->create($request->all('name'));
             return response()->json(['success' => true, 'data' => $data], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
         }
     }
 
-    public function update (TeamRequest $request, Team $Team) {
+    public function show (Skill $skill) {
         try {
-            $Team->update($request->validated());
-            return response()->json(['success' => true, 'data' => $Team], 200);
+            return response()->json(['success' => true, 'data' => $skill], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
         }
     }
 
-    public function show (Team $Team) {
+    public function update (Request $request, Skill $skill) {
         try {
-            return response()->json(['success' => true, 'data' => $Team], 200);
+            $skill->update($request->all('name'));
+            return response()->json(['success' => true, 'data' => $skill], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
         }
     }
 
-    public function destroy (Team $Team) {
+    public function destroy (Skill $skill) {
         try {
-            $Team->delete();
-            return response()->json(['success' => true, 'data' => $Team], 200);
+            $skill->delete();
+            return response()->json(['success' => true, 'data' => $skill], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
         }

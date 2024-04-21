@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTeamsTable extends Migration
+class CreateMissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateTeamsTable extends Migration
      */
     public function up()
     {
-        Schema::create('teams', function (Blueprint $table) {
-            $table->id();
+        Schema::create('missions', function (Blueprint $table) {
+            $table->id();//-25.40623471747551, -51.46639209704242
             $table->string('name');
-            $table->string('location');
-            $table->longText('image');
-            $table->string('founded_date');
+            $table->string('coordinates')->nullable();
+            $table->string('urgency_level')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateTeamsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teams');
+        Schema::dropIfExists('missions');
     }
 }
