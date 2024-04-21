@@ -19,12 +19,18 @@ class Character extends Model
         'pair',
         'planet',
         'city',
-        'team_id'
+        'team_id',
+        'squad_id'
     ];
 
     public function team()
     {
         return $this->belongsTo('App\Models\Team');
+    }
+
+    public function squad()
+    {
+        return $this->belongsTo('App\Models\Squad');
     }
 
 

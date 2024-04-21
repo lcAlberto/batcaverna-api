@@ -38,4 +38,27 @@ Route::middleware('jwt.auth')->group(function () {
 Route::resources([
     'characters' => 'Api\v1\CharactersController',
     'teams' => 'Api\v1\TeamsController',
+    'squad' => 'Api\v1\SquadsController',
+    'mission' => 'Api\v1\MissionsController',
 ]);
+
+/**search*/
+//Characters
+Route::get('character/search', 'Api\v1\CharactersController@search');
+Route::get('character/squad/{squad}', 'Api\v1\CharactersController@squad');
+Route::get('character/mission/{mission}', 'Api\v1\CharactersController@mission');
+
+
+
+// Mission
+Route::get('mission/search', 'Api\v1\MissionsController@search');
+// Mission
+Route::get('squad/search', 'Api\v1\SquadsController@search');
+
+/* Assiciate relations */
+Route::post('squad-character/character/{character}/squad/{squad}', 'Api\v1\SquadsController@connectSquadCharacter');
+Route::post('disassociate-squad-character/character/{character}/squad/{squad}', 'Api\v1\SquadsController@disassociateCharacter');
+
+
+Route::post('mission-squad/squad/{squad}/mission/{mission}', 'Api\v1\SquadsController@connectMissionSquad');
+Route::post('disassociate-mission-squad/squad/{squad}/mission/{mission}', 'Api\v1\SquadsController@disassociateMissionSquad');
