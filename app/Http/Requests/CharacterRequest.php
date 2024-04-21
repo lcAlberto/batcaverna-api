@@ -30,7 +30,7 @@ class CharacterRequest extends FormRequest
             'age' => 'required|string',
             'avatar' => 'string',
             'weakness' => 'string',
-            'skils' => 'string',
+            'skills' => 'nullable',
             'color' => 'string',
             'affiliate' => 'string',
             'pair' => 'string',
