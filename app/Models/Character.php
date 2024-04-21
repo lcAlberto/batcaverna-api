@@ -13,7 +13,6 @@ class Character extends Model
         'age',
         'avatar',
         'weakness',
-        'skils',
         'color',
         'affiliate',
         'pair',
@@ -33,5 +32,8 @@ class Character extends Model
         return $this->belongsTo('App\Models\Squad');
     }
 
-
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'character_skill');
+    }
 }

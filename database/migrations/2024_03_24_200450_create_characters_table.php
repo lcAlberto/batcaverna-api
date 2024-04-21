@@ -22,7 +22,6 @@ class CreateCharactersTable extends Migration
             $table->string('age');
             $table->longText('avatar')->nullable();
             $table->string('weakness')->nullable();
-            $table->string('skils')->nullable();
             $table->string('color')->nullable();
             $table->string('affiliate')->nullable(); // relation
             $table->string('pair')->nullable(); // relation

@@ -40,6 +40,7 @@ Route::resources([
     'teams' => 'Api\v1\TeamsController',
     'squad' => 'Api\v1\SquadsController',
     'mission' => 'Api\v1\MissionsController',
+    'skill' => 'Api\v1\SkillsController',
 ]);
 
 /**search*/
@@ -47,6 +48,7 @@ Route::resources([
 Route::get('character/search', 'Api\v1\CharactersController@search');
 Route::get('character/squad/{squad}', 'Api\v1\CharactersController@squad');
 Route::get('character/mission/{mission}', 'Api\v1\CharactersController@mission');
+Route::get('character/skill/{character}', 'Api\v1\CharactersController@skill');
 
 
 

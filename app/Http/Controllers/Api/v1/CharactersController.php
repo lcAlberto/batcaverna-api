@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Character;
 use App\Http\Requests\CharacterRequest;
 use App\Models\Mission;
+use App\Models\Skill;
 use App\Models\Squad;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -23,8 +24,14 @@ class CharactersController extends Controller
 
     public function store (CharacterRequest $request, Character $model) {
         try {
-            $data = $model->create($request->validated());
-            return response()->json(['success' => true, 'data' => $data], 200);
+            $data = $request->validated();
+            $character = $model->create($data);
+            if ($request->input('skills') && $request->skills) {
+                $character->skills()->attach($request->skills);
+            }
+
+            $character['skills'] = $model->skills()->get();
+            return response()->json(['success' => true, 'data' => $character], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
         }
@@ -33,6 +40,10 @@ class CharactersController extends Controller
     public function update (CharacterRequest $request, Character $character) {
         try {
             $character->update($request->validated());
+            if ($request->input('skills') && $request->skills) {
+                $character->skills()->sync($request->input('skills'));
+            }
+            $character['skills'] = $character->skills()->get();
             return response()->json(['success' => true, 'data' => $character], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
@@ -41,6 +52,9 @@ class CharactersController extends Controller
 
     public function show (Character $character) {
         try {
+            $character['skills'] = $character->skills()->get();
+            $character['team'] = $character->team()->get();
+            $character['squad'] = $character->squad()->get();
             return response()->json(['success' => true, 'data' => $character], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
@@ -114,6 +128,16 @@ class CharactersController extends Controller
             $character = Character::whereIn('squad_id', $squadData)->get();
 
             return response()->json(['success' => true, 'data' => $character], 200);
+        } catch (\Exception $exception) {
+            return $this->getExceptions($exception);
+        }
+    }
+
+    public function skill(Character $character)
+    {
+        try {
+            $data = $character->skills()->get();
+            return response()->json(['success' => true, 'data' => $data], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
         }
