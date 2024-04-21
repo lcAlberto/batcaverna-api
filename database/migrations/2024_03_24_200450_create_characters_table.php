@@ -20,7 +20,7 @@ class CreateCharactersTable extends Migration
             $table->string('codename');
             $table->enum('sex', CharacterSexEnum::getConstantsValues());
             $table->string('age');
-            $table->string('avatar')->nullable();
+            $table->longText('avatar')->nullable();
             $table->string('weakness')->nullable();
             $table->string('skils')->nullable();
             $table->string('color')->nullable();
@@ -28,11 +28,15 @@ class CreateCharactersTable extends Migration
             $table->string('pair')->nullable(); // relation
             $table->string('planet')->nullable(); //relation
             $table->string('city')->nullable(); //relation
-            $table->unsignedBigInteger('team_id');
+            $table->unsignedBigInteger('team_id')->nullable();
             $table->foreign('team_id')
                 ->references('id')
-                ->on('teams')
-                ->nullable(); //relation
+                ->on('teams');
+
+            $table->unsignedBigInteger('squad_id')->nullable();
+            $table->foreign('squad_id')
+                ->references('id')
+                ->on('squads');
             $table->timestamps();
         });
     }

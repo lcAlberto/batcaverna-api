@@ -27,7 +27,8 @@ class TeamRequest extends FormRequest
             'name' => ['required', $this->method() == 'PUT' ? 'sometimes' : 'unique:characters,name'],
             'location' => ['required', 'string'],
             'image' => ['required', 'string'],
-            'founded_date' => ['required', 'date'],
+            'founded_date' => ['date'],
+            'heroes'=> ['nullable', 'array'],
         ];
     }
 

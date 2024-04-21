@@ -19,7 +19,7 @@ class TeamsController extends Controller
     public function index()
     {
         try {
-            return response()->json(['data' => Team::paginate($this->paginate)]);
+            return response()->json(['teams' => Team::paginate($this->paginate)]);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
         }
