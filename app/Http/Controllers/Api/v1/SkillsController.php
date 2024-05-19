@@ -21,7 +21,7 @@ class SkillsController extends Controller
 
     public function store (Request $request, Skill $model) {
         try {
-            $data = $model->create($request->all('name'));
+            $data = $model->create($request->all());
             return response()->json(['success' => true, 'data' => $data], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
@@ -38,7 +38,7 @@ class SkillsController extends Controller
 
     public function update (Request $request, Skill $skill) {
         try {
-            $skill->update($request->all('name'));
+            $skill->update($request->all());
             return response()->json(['success' => true, 'data' => $skill], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);

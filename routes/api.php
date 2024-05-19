@@ -64,3 +64,7 @@ Route::post('disassociate-squad-character/character/{character}/squad/{squad}', 
 
 Route::post('mission-squad/squad/{squad}/mission/{mission}', 'Api\v1\SquadsController@connectMissionSquad');
 Route::post('disassociate-mission-squad/squad/{squad}/mission/{mission}', 'Api\v1\SquadsController@disassociateMissionSquad');
+
+Route::get('/csrf-token', function() {
+    return response()->json(['csrfToken' => csrf_token()]);
+});

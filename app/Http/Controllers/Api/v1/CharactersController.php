@@ -10,10 +10,19 @@ use App\Models\Skill;
 use App\Models\Squad;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use App\Services\ImageUploadService;
 
 class CharactersController extends Controller
 {
     private $paginate = 15;
+
+    protected $imageUploadService;
+
+    public function __construct(ImageUploadService $imageUploadService)
+    {
+        $this->imageUploadService = $imageUploadService;
+    }
+
     public function index (Character $character) {
         try {
             return response()->json(['data' => Character::paginate($this->paginate)]);
@@ -25,6 +34,12 @@ class CharactersController extends Controller
     public function store (CharacterRequest $request, Character $model) {
         try {
             $data = $request->validated();
+
+            if ($request->hasFile('avatar')) {
+                $imageName = $this->imageUploadService->uploadImage($request, $data->avatar, 'public/images/heroes');
+                $data->avatar = $imageName;
+            }
+
             $character = $model->create($data);
             if ($request->input('skills') && $request->skills) {
                 $character->skills()->attach($request->skills);
