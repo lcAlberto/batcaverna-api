@@ -35,9 +35,9 @@ class CharactersController extends Controller
         try {
             $data = $request->validated();
 
-            if ($request->hasFile('avatar')) {
-                $imageName = $this->imageUploadService->uploadImage($request, $data->avatar, 'public/images/heroes');
-                $data->avatar = $imageName;
+            if ($request['avatar']) {
+                $imageName = $this->imageUploadService->uploadImage($request, $data['avatar'], 'public/images/heroes');
+                $data['avatar'] = $imageName;
             }
 
             $character = $model->create($data);
@@ -167,7 +167,7 @@ class CharactersController extends Controller
             }
             return redirect()->back()->withInput()->withErrors($exception->validator->getMessageBag());
         } else {
-            return response()->json(['error' => $exception->getMessage()], 500);
+            return response()->json(['error' => $exception->getMessage(), 'debug' => $exception], 500);
         }
     }
 }
