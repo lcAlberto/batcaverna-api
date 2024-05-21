@@ -28,7 +28,7 @@ class CharacterRequest extends FormRequest
             'codename' => ['required', $this->method() == 'PUT' ? 'sometimes' : 'unique:characters,codename'],
             'sex' => 'required|string',
             'age' => 'required|string',
-            'avatar' => 'string',
+            'avatar' => 'nullable|file|mimes:jpeg,bmp,png,webp',
             'weakness' => 'string',
             'skills' => 'nullable',
             'color' => 'string',
