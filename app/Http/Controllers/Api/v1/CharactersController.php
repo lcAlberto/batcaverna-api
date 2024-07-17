@@ -40,6 +40,8 @@ class CharactersController extends Controller
                 $data['avatar'] = $imageName;
             }
 
+            $data['weakness'] = $data['weakness'][0];
+
             $character = $model->create($data);
             if ($request->input('skills') && $request->skills) {
                 $character->skills()->attach($request->skills);
