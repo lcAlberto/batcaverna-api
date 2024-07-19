@@ -28,7 +28,8 @@ class CharacterRequest extends FormRequest
             'codename' => ['required', $this->method() == 'PUT' ? 'sometimes' : 'unique:characters,codename'],
             'sex' => 'required|string',
             'age' => 'required|string',
-            'avatar' => 'nullable|file|mimes:jpeg,bmp,png,webp',
+            'avatar' => 'nullable|string',
+            // 'avatar' => 'nullable|file|mimes:jpeg,bmp,png,webp',
             'weakness' => 'nullable|array|min:1',
             'weakness*' => 'string|distinct',
             'skills' => 'required|array|min:1',
@@ -64,20 +65,20 @@ class CharacterRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Nome é obrigatório',
+            'name.required' => 'O campo nome é obrigatório',
             'name.unique' => 'O campo nome deve ser único',
-            'codename.required' => 'Codinome é obrigatório',
-            'codename.unique' => 'Codinome deve ser obrigatório',
+            'codename.required' => 'O campo codinome é obrigatório',
+            'codename.unique' => 'O campo codinome deve ser obrigatório',
             'sex.required' => 'O campo sexo é obrigatório',
-            'age.required' => 'O Idade sexo é obrigatório',
+            'age.required' => 'O campo idade é obrigatório',
             'avatar.string' => 'Carregue uma imagem válida',
-            'weakness.string' => 'O Fraqueza sexo é inválido',
-            'skils.string' => 'O campo Habilidade é inválido',
-            'color.string' => 'O campo sexo é inválido',
-            'affiliate.string' => 'O campo Afiliado é inválido',
-            'pair.string' => 'O campo Par é inválido',
-            'city.string' => 'O campo Cidade é inválido',
-            'team_id.required' => 'O campo Time é obrigatório',
+            'weakness.string' => 'O campo fraqueza é inválido',
+            'skils.string' => 'O campo habilidade é inválido',
+            'color.string' => 'O campo cor é inválido',
+            'affiliate.string' => 'O campo afiliado é inválido',
+            'pair.string' => 'O campo par é inválido',
+            'city.string' => 'O campo cidade é inválido',
+            'team_id.required' => 'O campo equipe é obrigatório',
         ];
     }
 }
