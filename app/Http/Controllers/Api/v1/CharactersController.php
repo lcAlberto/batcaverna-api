@@ -56,6 +56,12 @@ class CharactersController extends Controller
 
     public function update (CharacterRequest $request, Character $character) {
         try {
+            $data = $request->validated();
+            
+            if ($request['avatar']) {
+                $imageName = $this->imageUploadService->uploadImage($request, $data['avatar'], 'public/images/heroes');
+                $data['avatar'] = $imageName;
+            }
             $character->update($request->validated());
             if ($request->input('skills') && $request->skills) {
                 $character->skills()->sync($request->input('skills'));
