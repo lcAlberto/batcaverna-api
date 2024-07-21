@@ -26,7 +26,7 @@ class TeamRequest extends FormRequest
         return [
             'name' => ['required', $this->method() == 'PUT' ? 'sometimes' : 'unique:characters,name'],
             'location' => ['required', 'string'],
-            'image' => ['required', 'string'],
+            'avatar' => ['required', 'string'],
             'founded_date' => ['date'],
             'heroes'=> ['nullable', 'array'],
         ];
@@ -38,7 +38,7 @@ class TeamRequest extends FormRequest
         return [
             'name' => 'nome',
             'location' => 'localização',
-            'image' => 'imagem',
+            'avatar' => 'imagem',
             'founded_date' => 'data de funcação',
         ];
     }
@@ -49,7 +49,7 @@ class TeamRequest extends FormRequest
             'name.required' => 'O campo nome é obrigatório',
             'name.unique' => 'O campo nome deve ser único',
             'location.required' => 'O campo localização é obrigatório',
-            'image.required' => 'O campo imagem é obrigatório',
+            'avatar.required' => 'O campo imagem é obrigatório',
             'founded_date.required' => 'O campo data de fundação é obrigatório',
 
             'team_id.required' => 'O campo Time é obrigatório',

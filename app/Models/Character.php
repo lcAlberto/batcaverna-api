@@ -36,4 +36,9 @@ class Character extends Model
     {
         return $this->belongsToMany(Skill::class, 'character_skill');
     }
+
+    public function weaknesses()
+    {
+        return $this->belongsToMany(Weakness::class, 'characters_weakness');
+    }
 }

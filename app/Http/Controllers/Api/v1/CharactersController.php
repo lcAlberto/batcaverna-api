@@ -45,9 +45,10 @@ class CharactersController extends Controller
             $character = $model->create($data);
             if ($request->input('skills') && $request->skills) {
                 $character->skills()->attach($request->skills);
+                $character->weaknesses()->sync($request->input('weakness'));
             }
-
-            $character['skills'] = $model->skills()->get();
+            $character['skills'] = $character->skills()->get();
+            $character['weakness'] = $character->weaknesses()->get();
             return response()->json(['success' => true, 'data' => $character], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
@@ -57,16 +58,17 @@ class CharactersController extends Controller
     public function update (CharacterRequest $request, Character $character) {
         try {
             $data = $request->validated();
-            
-            if ($request['avatar']) {
-                $imageName = $this->imageUploadService->uploadImage($request, $data['avatar'], 'public/images/heroes');
-                $data['avatar'] = $imageName;
+
+            if ($data['avatar'] && $request->input('avatar')) {
+                $data['avatar'] = $this->imageUploadService->uploadImage($request, $data['avatar'], 'public/images/heroes');
             }
-            $character->update($request->validated());
+            $character->update($data);
             if ($request->input('skills') && $request->skills) {
                 $character->skills()->sync($request->input('skills'));
+                $character->weaknesses()->sync($request->input('weakness'));
             }
             $character['skills'] = $character->skills()->get();
+            $character['weakness'] = $character->weaknesses()->get();
             return response()->json(['success' => true, 'data' => $character], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
@@ -78,6 +80,7 @@ class CharactersController extends Controller
             $character['skills'] = $character->skills()->get();
             $character['team'] = $character->team()->get();
             $character['squad'] = $character->squad()->get();
+            $character['weakness'] = $character->weaknesses()->get();
             return response()->json(['success' => true, 'data' => $character], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
@@ -157,6 +160,16 @@ class CharactersController extends Controller
     }
 
     public function skill(Character $character)
+    {
+        try {
+            $data = $character->skills()->get();
+            return response()->json(['success' => true, 'data' => $data], 200);
+        } catch (\Exception $exception) {
+            return $this->getExceptions($exception);
+        }
+    }
+
+    public function weaknesses(Character $character)
     {
         try {
             $data = $character->skills()->get();

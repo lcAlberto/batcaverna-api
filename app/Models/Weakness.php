@@ -4,17 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Team extends Model {
-
+class Weakness extends Model
+{
     protected $fillable = [
         'name',
-        'location',
-        'avatar',
-        'founded_date'
+        'color'
     ];
 
     public function characters()
     {
-        return $this->hasMany('App\Models\Character');
+        return $this->belongsToMany(Character::class, 'characters_weakness');
     }
 }

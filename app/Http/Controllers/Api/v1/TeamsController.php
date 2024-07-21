@@ -7,15 +7,18 @@ use App\Http\Requests\TeamRequest;
 use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use App\Services\ImageUploadService;
 
 class TeamsController extends Controller
 {
     private $paginate = 15;
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+    protected $imageUploadService;
+
+    public function __construct(ImageUploadService $imageUploadService)
+    {
+        $this->imageUploadService = $imageUploadService;
+    }
+
     public function index()
     {
         try {
@@ -27,7 +30,14 @@ class TeamsController extends Controller
 
     public function store (TeamRequest $request, Team $model) {
         try {
-            $data = $model->create($request->validated());
+            $data = $request->validated();
+
+            if ($request['avatar']) {
+                $imageName = $this->imageUploadService->uploadImage($request, $data['avatar'], 'public/images/teams');
+                $data['avatar'] = $imageName;
+            }
+        
+            $data = $model->create($data);
             return response()->json(['success' => true, 'data' => $data], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
@@ -36,7 +46,13 @@ class TeamsController extends Controller
 
     public function update (TeamRequest $request, Team $Team) {
         try {
-            $Team->update($request->validated());
+            $data = $request->validated();
+
+            if ($data['avatar']) {
+                $imageName = $this->imageUploadService->uploadImage($request, $data['avatar'], 'public/images/teams');
+                $data['avatar'] = $imageName;
+            }
+            $Team->update($data);
             return response()->json(['success' => true, 'data' => $Team], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);

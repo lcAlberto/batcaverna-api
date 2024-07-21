@@ -29,17 +29,15 @@ class CharacterRequest extends FormRequest
             'sex' => 'required|string',
             'age' => 'required|string',
             'avatar' => 'nullable|string',
-            // 'avatar' => 'nullable|file|mimes:jpeg,bmp,png,webp',
             'weakness' => 'nullable|array|min:1',
             'weakness*' => 'string|distinct',
             'skills' => 'required|array|min:1',
             'skills*' => 'string|distinct',
-            'color' => 'string',
-            'affiliate' => 'string',
-            'pair' => 'string',
+            'color' => 'nullable|string',
+            'affiliate' => 'nullable|string',
+            'pair' => 'nullable|string',
             'planet' => 'string',
             'city' => 'string',
-            'team' => 'required',
         ];
     }
 
