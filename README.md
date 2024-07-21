@@ -66,10 +66,10 @@ DB_PASSWORD='senha-do-seu-database'
 ```
 
 ## Migrando o banco de dados
-Para migrar use:
+Para migrar as tabelas e já semear alguns dados para ilustrar o uso da aplicação, bem como algumas relações entre as tabelas use:
 ```bash
 # artisan
-php artisan migrate
+php artisan migrate:fresh --seed
 ```
 
 ## Rodando o servidor
