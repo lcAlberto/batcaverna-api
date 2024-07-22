@@ -173,7 +173,6 @@ class SkillsSeeder extends Seeder
                 'name' => 'Força sobre-humana',
                 'color' => '#F39C12',
             ]
-
         ]);
     }
 }

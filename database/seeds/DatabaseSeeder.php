@@ -15,5 +15,7 @@ class DatabaseSeeder extends Seeder
          $this->call(SkillsSeeder::class);
          $this->call(CharacterSeeder::class);
          $this->call(CharacterSkillSeeder::class);
+         $this->call(WeaknessSeeder::class);
+         $this->call(CharacterWeaknessSeeder::class);
     }
 }
