@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SquadCharacterRequest;
+use App\Http\Requests\SquadMissionRequest;
 use App\Http\Requests\SquadRequest;
 use App\Models\Character;
 use App\Models\Mission;
@@ -16,7 +18,7 @@ class SquadsController extends Controller
     public function index()
     {
         try {
-            return response()->json(['squads' => Squad::paginate($this->paginate)]);
+            return response()->json(['squads' => Squad::with('characters')->paginate($this->paginate)]);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
         }
@@ -25,8 +27,16 @@ class SquadsController extends Controller
     public function store(SquadRequest $request, Squad $model)
     {
         try {
-            $data = $model->create($request->validated());
-            return response()->json(['success' => true, 'data' => $data], 200);
+            $data = $request->validated();
+            $squad = $model->create($data);
+            if ($data['hero_ids']) {
+                foreach ($data['hero_ids'] as $characterId) {
+                    $character = Character::findOrFail($characterId);
+                    $character->squad_id = $squad->id;
+                    $character->save();
+                }
+            }
+            return response()->json(['success' => true, 'data' => $squad], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
         }
@@ -35,7 +45,26 @@ class SquadsController extends Controller
     public function update(SquadRequest $request, Squad $squad)
     {
         try {
-            $squad->update($request->validated());
+            $data = $request->validated();
+            $squad->update($data);
+
+            $characterIds = $data['hero_ids'];
+            $currentCharacterIds = $squad->characters()->pluck('id')->toArray();
+            $charactersToAdd = array_diff($characterIds, $currentCharacterIds);
+            $charactersToRemove = array_diff($currentCharacterIds, $characterIds);
+
+            foreach ($charactersToAdd as $characterId) {
+                $character = Character::findOrFail($characterId);
+                $character->squad_id = $squad->id;
+                $character->save();
+            }
+
+            foreach ($charactersToRemove as $characterId) {
+                $character = Character::findOrFail($characterId);
+                $character->squad_id = null;
+                $character->save();
+            }
+
             return response()->json(['success' => true, 'data' => $squad], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
@@ -61,36 +90,49 @@ class SquadsController extends Controller
         }
     }
 
-    public function connectSquadCharacter(Character $character, Squad $squad)
+    public function connectSquadCharacter(SquadCharacterRequest $request, Squad $squad)
     {
         try {
-//        $character->squad()->associate($squad);
-            $squad->characters()->save($character);
+            $charactersList = $request->validated()['hero_ids'];
+            foreach ($charactersList as $characterId) {
+                $character = Character::findOrFail($characterId);
+                $character->squad_id = $squad->id;
+                $character->save();
+            }
 
-            return response()->json(['success' => true, 'message' => 'Herói adicionado a esquadrão'], 200);
+            return response()->json(['success' => true, 'message' => 'Heróis adicionados a esquadrão'], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
         }
     }
 
-    public function disassociateCharacter(Character $character, Squad $squad)
+    public function disassociateCharacter(SquadCharacterRequest $request, Character $character, Squad $squad)
     {
         try {
-        $character->squad()->dissociate();
-        $character->save();
+            $charactersList = $request->validated()['hero_ids'];
+            foreach ($charactersList as $characterId) {
+                $character = Character::findOrFail($characterId);
+                $character->squad_id = null;
+                $character->squad()->dissociate();
+                $character->save();
+            }
 
-        return response()->json(['success' => true, 'message' => 'Herói removido de esquadrão'], 200);
+        return response()->json(['success' => true, 'message' => 'Heróis removidos de esquadrão'], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
         }
     }
 
-    public function connectMissionSquad(Squad $squad, Mission $mission)
+    public function connectMissionSquad(SquadMissionRequest $request, Mission $mission)
     {
         try {
-        $squad->missions()->attach($mission);
+            $squadList = $request->validated()['squad_ids'];
 
-        return response()->json(['success' => true, 'data' => $squad], 200);
+            // $validSquadIds = Squad::whereIn('id', $squadList)->pluck('id')->toArray();
+            // dd(count($validSquadIds), count($squadList));
+            $mission->squads()->attach($squadList);
+
+        return response()->json(['success' => true, 'data' => $mission], 200);
         } catch (\Exception $exception) {
             return $this->getExceptions($exception);
         }
