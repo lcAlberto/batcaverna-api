@@ -27,6 +27,8 @@ class SquadRequest extends FormRequest
             'name' => ['required', $this->method() == 'PUT' ? 'sometimes' : 'unique:squads,name'],
             'description' => ['required', 'string'],
             'objectives' => ['required', 'string'],
+            'hero_ids' => ['required', 'array'],
+            'hero_ids.*' => ['exists:characters,id']
         ];
     }
 

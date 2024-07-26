@@ -14,7 +14,7 @@ class CreateMissionsTable extends Migration
     public function up()
     {
         Schema::create('missions', function (Blueprint $table) {
-            $table->id();//-25.40623471747551, -51.46639209704242
+            $table->id();
             $table->string('name');
             $table->string('coordinates')->nullable();
             $table->string('urgency_level')->nullable();

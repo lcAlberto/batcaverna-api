@@ -60,12 +60,12 @@ Route::get('mission/search', 'Api\v1\MissionsController@search');
 Route::get('squad/search', 'Api\v1\SquadsController@search');
 
 /* Assiciate relations */
-Route::post('squad-character/character/{character}/squad/{squad}', 'Api\v1\SquadsController@connectSquadCharacter');
-Route::post('disassociate-squad-character/character/{character}/squad/{squad}', 'Api\v1\SquadsController@disassociateCharacter');
+Route::post('squad-character/squad/{squad}', 'Api\v1\SquadsController@connectSquadCharacter');
+Route::post('disassociate-squad-character/squad/{squad}', 'Api\v1\SquadsController@disassociateCharacter');
 
 
-Route::post('mission-squad/squad/{squad}/mission/{mission}', 'Api\v1\SquadsController@connectMissionSquad');
-Route::post('disassociate-mission-squad/squad/{squad}/mission/{mission}', 'Api\v1\SquadsController@disassociateMissionSquad');
+Route::post('mission-squad/mission/{mission}', 'Api\v1\SquadsController@connectMissionSquad');
+Route::post('disassociate-mission-squad/mission/{mission}', 'Api\v1\SquadsController@disassociateMissionSquad');
 
 Route::get('/csrf-token', function() {
     return response()->json(['csrfToken' => csrf_token()]);

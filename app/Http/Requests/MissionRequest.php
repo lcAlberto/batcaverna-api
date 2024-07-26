@@ -26,7 +26,7 @@ class MissionRequest extends FormRequest
         return [
             'name' => ['required', $this->method() == 'PUT' ? 'sometimes' : 'unique:missions,name'],
             'coordinates' => ['required', 'string'],
-            'urgency_level' => ['required', 'string'],
+            'urgency_level' => ['required', 'numeric'],
         ];
     }
 
